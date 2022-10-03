@@ -5,6 +5,7 @@ class App extends React.Component{
         super(props)
         this.state  = {
             items: [
+               
                 {
                     text: "To install Kali Linux",
                     id: Date.now(),
@@ -16,36 +17,51 @@ class App extends React.Component{
                 },
 
                 {
-                    text: "пробить человека, зная id от vk",
-                    id: Date.now(),
+                    text: "пробить человека, зная id от vk", 
                 },
+               
             ],
+            text: "",
+
 
         }
-
         
     }
-    handleSubmit(){
-        
+    handleSubmit(event){
+        event.preventDefault()
+        console.log(16);
+        let newItem = {
+            text: this.state.text,
+            id: Date.now(),
+        }
+        this.setState(function(state){
+            let currentItems = state.items
+            currentItems.push(newItem)
+            let buttonText = " ";
+            return {
+                items: currentItems,
+                text: buttonText
+                
+            }
+        })
     }
     render(){
         return(
-            <form action="">
+            <form action="" onSubmit={(event)=>this.handleSubmit(event)}>
                 <h1>TODO APP</h1>
                 <ol>
                     {
                         this.state.items.map((item) => (
                             <li key={item.id}>
                                 <p>{item.text}</p>
-                                <p>{item.id}</p>
-                                <button>Edit</button>
-                                <button>Delete</button>
+                                <button type="button">Edit</button>
+                                <button type="button">Delete</button>
                             </li>
                         ))
                     }
                 </ol>
-                <input type="text" />
-                <button onClick={()=> this.handleSubmit()}>ADD</button>
+                <input type="text" onChange={(event) => this.setState({text: event.target.value})} value={this.state.text}/>
+                <button>ADD</button>
             </form>
         )
     }
